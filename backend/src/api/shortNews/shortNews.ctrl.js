@@ -8,6 +8,7 @@ const { ObjectId } = mongoose.Types;
 export const getNewsById = async (ctx, next) => {
   const {id} = ctx.params;
   console.log("getNewsById의 id:", id);
+  console.log("쇼츠뉴스 한개 불러오는데 여기함수가 불러지나");
   if (!ObjectId.isValid(id)) {
     ctx.status = 400;
     return;
@@ -60,6 +61,7 @@ export const read = async ctx => {
 // 요약 뉴스 분야별로 불러오기 //가짜뉴스는 field가 fake
 //Get http://localhost:4000/api/shortNews/?field=정치
 export const list = async ctx => {
+  console.log("요약뉴스 목록 불러오기");
   const page = parseInt(ctx.query.page || '1', 10);
   const shortNewsField = ctx.query.field; //?field = 101
   if (page < 1) {

@@ -6,6 +6,7 @@ const api = new Router();
 
 api.use('/shortNews', shortNews.routes());
 api.use('/auth', auth.routes());
-api.use('/scrapNews', scrapNews.routes());
+// api.use('/scrapNews', scrapNews.routes());
+api.use('/posts', scrapNews.routes());
 
 export default api;

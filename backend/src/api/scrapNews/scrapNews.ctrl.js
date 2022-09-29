@@ -52,6 +52,7 @@ export const getPostById = async (ctx, next) => {
 };
 
 // Post http://localhost:4000/api/scrapNews/?field=정치
+// 스크랩할 요약 기사의 데이터를 가져와야함. agency?
 export const write = async ctx => {
   const schema = Joi.object().keys({
     title: Joi.string().required(), // required() 가 있으면 필수 항목
