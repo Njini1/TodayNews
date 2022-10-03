@@ -12,14 +12,15 @@ const PaginationBlock = styled.div`
 `;
 const PageNumber = styled.div``;
 
-const buildLink = ({ username, field, page }) => {
+const buildLink = ({ /*username,*/ field, page }) => {
   const query = qs.stringify({ field, page });
-  return username
+  return `/today-news/?${query}`;
+  /*return username
     ? `/today-news/${username}?${query}`
-    : `/today-news/?${query}`;
+    : `/today-news/?${query}`;*/
 };
 
-const NPagination = ({ username, page, lastPage, field }) => {
+const NPagination = ({ /*username,*/ page, lastPage, field }) => {
   return (
     <PaginationBlock>
       <Button
@@ -27,7 +28,7 @@ const NPagination = ({ username, page, lastPage, field }) => {
         to={
           page === 1
             ? undefined
-            : buildLink({ username, field, page: page - 1 })
+            : buildLink({ /*username,*/ field, page: page - 1 })
         }
       >
         이전
@@ -40,7 +41,7 @@ const NPagination = ({ username, page, lastPage, field }) => {
         to={
           page === lastPage
             ? undefined
-            : buildLink({ username, field, page: page + 1 })
+            : buildLink({ /*username,*/ field, page: page + 1 })
         }
       >
         다음

@@ -9,7 +9,7 @@ const PaginationContainer = () => {
   const { username } = useParams();
   const tag = searchParams.get('tag');
   // page가 없으면 1을 기본값으로 사용
-  const page = parseInt(searchParams.get('page'), 9) || 1;
+  const page = parseInt(searchParams.get('page'), 10) || 1;
 
   const { lastPage, posts, loading } = useSelector(({ posts, loading }) => ({
     lastPage: posts.lastPage,
@@ -24,7 +24,7 @@ const PaginationContainer = () => {
     <Pagination
       tag={tag}
       username={username}
-      page={parseInt(page, 9)}
+      page={parseInt(page, 10)}
       lastPage={lastPage}
     />
   );

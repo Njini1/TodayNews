@@ -7,15 +7,15 @@ const NPaginationContainer = () => {
   const [searchParams] = useSearchParams();
 
   const field = searchParams.get('field');
-  const username = searchParams.get('username');
+  //const username = searchParams.get('username');
 
   // page가 없으면 1을 기본값으로 사용
-  const page = parseInt(searchParams.get('page'), 9) || 1;
+  const page = parseInt(searchParams.get('page'), 10) || 1;
 
   const { lastPage, newsList, loading } = useSelector(
     ({ newsList, loading }) => ({
       lastPage: newsList.lastPage,
-      newsList: newsList.posts,
+      newsList: newsList.newsList,
       loading: loading['shortNews/LIST_NEWS'],
     }),
   );
@@ -26,8 +26,8 @@ const NPaginationContainer = () => {
   return (
     <NPagination
       field={field}
-      username={username}
-      page={parseInt(page, 9)}
+      /*username={username}*/
+      page={parseInt(page, 10)}
       lastPage={lastPage}
     />
   );
