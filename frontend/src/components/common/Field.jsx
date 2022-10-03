@@ -46,6 +46,8 @@ const Field = () => {
             <FieldMenu>
               <NavLink
                 to={`/?field=${category}`}
+                // to={`/?field=정치`}
+                key={category}
                 style={({ isActive }) => ({
                   //color: isActive ? palette.navy : palette.gray,
                 })}
