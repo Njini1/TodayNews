@@ -31,9 +31,6 @@ const QuillWrapper = styled.div`
   .ql-editor.ql-blank::before {
     left: 10px;
   }
-  .ql-editor strong {
-    font-weight: bold;
-  }
 `;
 
 const Editor = ({ title, body, onChangeField }) => {
@@ -78,6 +75,14 @@ const Editor = ({ title, body, onChangeField }) => {
   const onChangeTitle = (e) => {
     onChangeField({ key: 'title', value: e.target.value });
   };
+
+  const bold = Quill.import('formats/bold');
+  bold.tagName = 'b'; // Quill uses <strong> by default
+  Quill.register(bold, true);
+
+  const italic = Quill.import('formats/italic');
+  italic.tagName = 'i'; // Quill uses <em> by default
+  Quill.register(italic, true);
 
   return (
     <EditorBlock>

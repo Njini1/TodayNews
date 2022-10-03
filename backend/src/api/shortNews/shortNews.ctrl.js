@@ -95,6 +95,10 @@ export const list = async ctx => {
 
 };
 
+// const like = {
+
+// };
+
 //페이크뉴스 공개된 것만 불러오기
 
 //마음에 드는 뉴스 mypage에 저장

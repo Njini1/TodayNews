@@ -7,6 +7,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 const PostListContainer = () => {
   const { username } = useParams();
   const [searchParams] = useSearchParams();
+  console.log('username: ', searchParams.get('tag'));
   const dispatch = useDispatch();
   const { posts, error, loading, user } = useSelector(
     ({ posts, loading, user }) => ({

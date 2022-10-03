@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { readNews, unloadNews } from '../../modules/news';
 import ShortNewsViewer from '../../components/news/ShortNewsViewer';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 /*
 import { readPost, unloadPost } from '../../modules/post';
@@ -14,7 +14,6 @@ const ShortNewsViewerContainer = () => {
   // 처음 마운트될 때 포스트 읽기 API 요청
   const { newsId } = useParams(); //postId -> newsId
 
-  const navigate = useNavigate(); //특정 양식제출 또는 이벤트 발생시 url 수정가능
   const dispatch = useDispatch(); //useDispatch()는 액션을 생성, useSelecotr()는 상태를 조회해줌
   const { news, error, loading } = useSelector(
     ({ news, loading }) => ({

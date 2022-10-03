@@ -1,34 +1,29 @@
-import React from 'react';
-import NPagination from '../../components/newsList/NPagination';
-//import { listNews } from '../../modules/listNews';
-import { useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import NewsList from '../../components/newsList/NewsList';
 
-const NewsListContainer = () => {
+import { listNews } from '../../modules/newsList';
+import { useSearchParams } from 'react-router-dom';
+
+const PostListContainer = () => {
   const [searchParams] = useSearchParams();
 
-  const shortNewsField = searchParams.get('shortNewsField');
-  // page가 없으면 1을 기본값으로 사용
-  const page = parseInt(searchParams.get('page'), 9) || 1;
+  const dispatch = useDispatch();
+  const { newsList, error, loading } = useSelector(({ newsList, loading }) => ({
+    newsList: newsList.newsList,
+    error: newsList.error,
+    loading: loading['shortNews/LIST_NEWS'],
+  }));
+  useEffect(() => {
+    const field = searchParams.get('field');
+    console.log('field값:', field);
+    const username = searchParams.get('username');
+    // page가 없으면 1을 기본값으로 사용
+    const page = parseInt(searchParams.get('page'), 10) || 1;
+    dispatch(listNews({ field, username, page }));
+  }, [dispatch, searchParams]);
 
-  const { lastPage, shortNews, loading } = useSelector(
-    ({ shortNews, loading }) => ({
-      lastPage: shortNews.lastPage,
-      shortNews: shortNews.shortNews,
-      loading: loading['shortNews/LIST_NEWS'],
-    }),
-  );
-
-  // 포스트 데이터가 없거나 로딩 중이면 아무것도 보여주지 않음
-  if (!shortNews || loading) return null;
-
-  return (
-    <NPagination
-      shortNewsField={shortNewsField}
-      page={parseInt(page, 9)}
-      lastPage={lastPage}
-    />
-  );
+  return <NewsList loading={loading} error={error} newsList={newsList} />;
 };
 
-export default NewsListContainer;
+export default PostListContainer;

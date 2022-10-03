@@ -52,22 +52,22 @@ const GridBox = styled(Responsive)`
 
 const NewsItem = ({ news }) => {
   //const { regDate, agency, title, _id } = news;
-  const { regDate, title, _id } = news;
+  const { regDate, title, _id, agency } = news;
   return (
-    <Link to={`/${_id}`}>
+    <Link to={`/today-news/${_id}`}>
       <NewsItemBlock>
         <img src={sampleimg} width="100%" height="200px" alt="임시파일" />
 
         <HeadLineBlock>
           <h2>{title}</h2>
-          <SubInfo username={'agency'} publishedDate={regDate} />
+          <SubInfo username={agency} publishedDate={regDate} />
         </HeadLineBlock>
       </NewsItemBlock>
     </Link>
   );
 };
 
-const NewsList = ({ shortnews, loading, error }) => {
+const NewsList = ({ newsList, loading, error }) => {
   // 에러 발생 시
   if (error) {
     return <GridBox>에러가 발생했습니다.</GridBox>;
@@ -75,10 +75,11 @@ const NewsList = ({ shortnews, loading, error }) => {
 
   return (
     <NewsListBlock>
+      <h3>선택필드명</h3>
       <GridBox>
-        {!loading && shortnews && (
+        {!loading && newsList && (
           <>
-            {shortnews.map((news) => (
+            {newsList.map((news) => (
               <NewsItem news={news} key={news._id} />
             ))}
           </>

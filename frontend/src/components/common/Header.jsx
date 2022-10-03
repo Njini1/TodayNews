@@ -111,21 +111,23 @@ const Header = ({ user, onLogout }) => {
               <li>
                 <NavLink
                   to="/"
+                  end
                   style={({ isActive }) => ({
                     color: isActive ? palette.yellow : 'white',
                   })}
                 >
-                  T-NEWS
+                  Today News
                 </NavLink>
               </li>
+
               <li>
                 <NavLink
-                  to="/m-news"
+                  to="/scrap-news"
                   style={({ isActive }) => ({
                     color: isActive ? palette.yellow : 'white',
                   })}
                 >
-                  M-NEWS
+                  Scrap News
                 </NavLink>
               </li>
               <li>
@@ -135,7 +137,7 @@ const Header = ({ user, onLogout }) => {
                     color: isActive ? palette.yellow : 'white',
                   })}
                 >
-                  S-NEWS
+                  write
                 </NavLink>
               </li>
             </ul>

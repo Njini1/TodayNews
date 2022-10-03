@@ -34,6 +34,11 @@ const FieldMenu = styled.li`
     background-color: ${palette.yellow};
     //border-bottom: 2px solid ${palette.navy};
   }
+  a {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
 `;
 
 const Field = () => {
@@ -42,15 +47,27 @@ const Field = () => {
     <>
       <FieldBlock>
         <FieldList>
-          {categoryList.map((category) => (
-            <FieldMenu>
+          <FieldMenu>
+            <NavLink
+              to="/"
+              key="전체"
+              style={({ isActive }) => ({
+                //color: isActive ? palette.red : palette.gray,
+              })}
+            >
+              전체
+            </NavLink>
+          </FieldMenu>
+          {categoryList.map((field) => (
+            <FieldMenu key={field}>
               <NavLink
-                to={`/?field=${category}`}
+                to={`/?field=${field}`}
+                end
                 style={({ isActive }) => ({
-                  //color: isActive ? palette.navy : palette.gray,
+                  //color: isActive ? palette.red : palette.gray,
                 })}
               >
-                {category}
+                {field}
               </NavLink>
             </FieldMenu>
           ))}

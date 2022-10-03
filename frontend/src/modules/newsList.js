@@ -8,11 +8,11 @@ import { takeLatest } from 'redux-saga/effects';
 const [LIST_NEWS, LIST_NEWS_SUCCESS, LIST_NEWS_FAILURE] =
   createRequestActionTypes('shortNews/LIST_NEWS'); //LIST_NEWS의 SUCCESS, FAILURE 생성
 
-//tag->shortNewsField
+//tag->field
 export const listNews = createAction(
   LIST_NEWS,
-  ({ shortNewsField, username, page }) => ({
-    shortNewsField,
+  ({ field, username, page }) => ({
+    field,
     username,
     page,
   }),
@@ -24,16 +24,16 @@ export function* shortNewsSaga() {
 }
 
 const initialState = {
-  shortNews: null,
+  newsList: null,
   error: null,
   lastPage: 1,
 };
 
-const shortNews = handleActions(
+const newsList = handleActions(
   {
-    [LIST_NEWS_SUCCESS]: (state, { payload: shortNews, meta: response }) => ({
+    [LIST_NEWS_SUCCESS]: (state, { payload: newsList, meta: response }) => ({
       ...state,
-      shortNews,
+      newsList,
       lastPage: parseInt(response.headers['last-page'], 10), // 문자열을 숫자로 변환
     }),
     [LIST_NEWS_FAILURE]: (state, { payload: error }) => ({
@@ -44,4 +44,4 @@ const shortNews = handleActions(
   initialState,
 );
 
-export default shortNews;
+export default newsList;

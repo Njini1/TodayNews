@@ -145,7 +145,7 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
           >
             원본보기
           </Button>
-          <Button to="/m-news">목록</Button>
+          <Button to="/scrap-news">목록</Button>
           <Button to="#">저장하기</Button>
         </ButtonBox>
       </PostViewerBlock>

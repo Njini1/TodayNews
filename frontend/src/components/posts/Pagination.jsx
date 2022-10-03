@@ -14,25 +14,33 @@ const PageNumber = styled.div``;
 
 const buildLink = ({ username, tag, page }) => {
   const query = qs.stringify({ tag, page });
-  return username ? `/${username}?${query}` : `/?${query}`;
+  return username
+    ? `/scarp-news/${username}?${query}`
+    : `/scarp-news/?${query}`;
 };
 
 const Pagination = ({ page, lastPage, username, tag }) => {
-  const prev =
-    page === 1 ? undefined : buildLink({ username, tag, page: page - 1 });
-  const next =
-    page === lastPage
-      ? undefined
-      : buildLink({ username, tag, page: page + 1 });
   return (
     <PaginationBlock>
-      <Button disabled={page === 1} to={`/m-news${prev}`}>
+      <Button
+        disabled={page === 1}
+        to={
+          page === 1 ? undefined : buildLink({ username, tag, page: page - 1 })
+        }
+      >
         이전
       </Button>
       <PageNumber>
         {page} / {lastPage}
       </PageNumber>
-      <Button disabled={page === lastPage} to={`/m-news${next}`}>
+      <Button
+        disabled={page === lastPage}
+        to={
+          page === lastPage
+            ? undefined
+            : buildLink({ username, tag, page: page + 1 })
+        }
+      >
         다음
       </Button>
     </PaginationBlock>
