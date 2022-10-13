@@ -10,9 +10,20 @@ const ShortNewsSchema = new Schema({ //이미지 저장 필드명? 필요
   body: String, //요약 기사로 저장
   regDate: Date, //나중에 마이페이지로 저장할때 언제 뉴스인지 알기위해서 
   like: Number, //디폴트값 0 수정
-  // like_ids: [{}], //좋아요 누른 사람 아이디
+  // like_ids: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   isLike: false
+  // }, //좋아요 누른 사람 아이디
+  likeCount: 0,
+  likeIds: {},
   url: String,                                                                            
 });
+
+// isUsed: {
+//   type: Boolean,
+//   default: false
+// }
 
 const ShortNews = mongoose.model('ShortNews', ShortNewsSchema);
 export default ShortNews;
@@ -51,3 +62,24 @@ export default ShortNews;
 
 // const SummaryNews = mongoose.model('SummaryNews', SummaryNewsSchema);
 // export default SummaryNews;
+
+
+/** 
+* Paste one or more documents here
+*/
+
+
+// ,
+//   "field": "정치",
+//   "title": "test1",
+//   "agency": "korea",
+//   "body": "<p>test</p>",
+//   "regDate": {
+//     "$date": {
+//       "$numberLong": "1663596273529"
+//     }
+//   },
+//   "likeCount": 1,
+//   "likeIds": 632904434362c5267b33bf67: true
+//   "link": "link입니다",
+//   "__v": 0
