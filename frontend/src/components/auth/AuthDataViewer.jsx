@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import palette from '../../lib/styles/palette';
-import { IoBuildOutline, IoAddCircleOutline } from 'react-icons/io5';
-//import Button from '../common/Button';
+import { AiOutlineSetting, AiOutlinePlusCircle } from 'react-icons/ai';
+
+import SettingModal from '../common/SettingModal';
 
 const BackBlock = styled(Responsive)`
   border: 2px solid gray;
@@ -36,18 +37,18 @@ const DataBlock = styled.div`
 `;
 
 const UserDataBlock = styled.div`
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-template-columns: 1fr 4fr;
-  width: 80%;
   margin: 0 auto;
-
+  width: 80%;
+  h3 {
+    margin-bottom: 0;
+  }
   input {
     border: 2px solid gray;
     margin: 10px 0;
     border-radius: 5px;
     font-size: 1.25rem;
     padding-left: 10px;
+    width: 100%;
   }
 `;
 
@@ -59,18 +60,41 @@ const HeadBox = styled.div`
   svg {
     font-size: 1.5rem;
   }
+  .userBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    &:hover {
+      color: ${palette.yellow};
+    }
+  }
 `;
 
 const AuthDataViewer = ({ user }) => {
   const username = user.username;
+
+  const [modal, setModal] = useState(false);
+  const onSettingClick = () => {
+    setModal(true);
+  };
+  const onCancel = () => {
+    setModal(false);
+  };
+  const onConfirm = () => {
+    setModal(false);
+    // onSetting()
+  };
+
   return (
     <>
       <BackBlock>
         <DataBlock>
           <HeadBox>
             <h2>내 정보</h2>
-            <IoBuildOutline />
-            {/*<button>정보변경</button>*/}
+
+            <button className="userBtn" onClick={onSettingClick}>
+              <AiOutlineSetting />
+            </button>
           </HeadBox>
           <UserDataBlock>
             <h3>아이디</h3>
@@ -81,7 +105,7 @@ const AuthDataViewer = ({ user }) => {
         <DataBlock>
           <HeadBox>
             <h2>작성한 뉴스</h2>
-            <IoAddCircleOutline />
+            <AiOutlinePlusCircle />
             {/*<button>더 보기</button>*/}
           </HeadBox>
 
@@ -101,7 +125,7 @@ const AuthDataViewer = ({ user }) => {
         <DataBlock>
           <HeadBox>
             <h2>저장한 뉴스</h2>
-            <IoAddCircleOutline />
+            <AiOutlinePlusCircle />
             {/*<button>더 보기</button>*/}
           </HeadBox>
           <table>
@@ -117,6 +141,12 @@ const AuthDataViewer = ({ user }) => {
           </table>
         </DataBlock>
       </BackBlock>
+      <SettingModal
+        title="비밀번호 변경"
+        visible={modal}
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+      />
     </>
   );
 };

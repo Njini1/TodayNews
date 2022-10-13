@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import sampleimg from '../images/sample.jpg';
 import palette from '../../lib/styles/palette';
 
+import { useSearchParams } from 'react-router-dom';
+
 const NewsListBlock = styled(Responsive)`
   margin-top: 3rem;
 `;
@@ -18,16 +20,18 @@ const HeadLineBlock = styled.div`
 `;
 const NewsItemBlock = styled.div`
   padding: 20px;
-  border: 3px solid gray;
+  border: 3px solid ${palette.gray[6]};
   height: 100%;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
   display: grid;
   grid-template-rows: 200px auto;
+  transition: all ease 0.5s 0s;
+
   &:hover {
     border: 3px solid ${palette.navy};
   }
   h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 0;
     margin-top: 0;
   }
@@ -39,7 +43,7 @@ const NewsItemBlock = styled.div`
 const GridBox = styled(Responsive)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(auto, 310px));
-  grid-template-rows: 400px 400px 400px;
+  //grid-template-rows: 400px 400px 400px;
   justify-items: center;
   gap: 30px;
   margin-top: 4rem;
@@ -68,6 +72,9 @@ const NewsItem = ({ news }) => {
 };
 
 const NewsList = ({ newsList, loading, error }) => {
+  const [searchParams] = useSearchParams();
+  const field = searchParams.get('field') || '전체';
+
   // 에러 발생 시
   if (error) {
     return <GridBox>에러가 발생했습니다.</GridBox>;
@@ -75,7 +82,7 @@ const NewsList = ({ newsList, loading, error }) => {
 
   return (
     <NewsListBlock>
-      <h3>선택필드명</h3>
+      <h2>{field}</h2>
       <GridBox>
         {!loading && newsList && (
           <>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import qs from 'qs';
 import Button from '../common/Button';
 
-const PaginationBlock = styled.div`
+const NPaginationBlock = styled.div`
   width: 320px;
   margin: 3rem auto 0 auto;
   display: flex;
@@ -22,19 +22,19 @@ const buildLink = ({ /*username,*/ field, page }) => {
 
 const NPagination = ({ /*username,*/ page, lastPage, field }) => {
   return (
-    <PaginationBlock>
+    <NPaginationBlock>
       <Button
         disabled={page === 1}
         to={
           page === 1
             ? undefined
-            : buildLink({ /*username,*/ field, page: page - 1 })
+            : buildLink({ /* username,*/ field, page: page - 1 })
         }
       >
         이전
       </Button>
       <PageNumber>
-        {page} / {lastPage}
+        {page}/{lastPage}
       </PageNumber>
       <Button
         disabled={page === lastPage}
@@ -46,7 +46,7 @@ const NPagination = ({ /*username,*/ page, lastPage, field }) => {
       >
         다음
       </Button>
-    </PaginationBlock>
+    </NPaginationBlock>
   );
 };
 

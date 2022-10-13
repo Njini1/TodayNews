@@ -8,14 +8,25 @@ const FieldBlock = styled.div`
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
   z-index: 999;
   display: flex;
-  height: 60px;
+  height: 55px;
   margin: 0;
   justify-content: center;
   position: relative;
+  @media (max-width: 600px) {
+    height: 100px;
+  }
+  /*
+  white-space: nowrap;
+  overflow: auto;
+  -ms-overflow-style: none; // IE and Edge
+  scrollbar-width: none; //Firefox 
+  ::-webkit-scrollbar {
+    display: none; //Chrome, Safari, Opera
+  }*/
 `;
 const FieldList = styled.ul`
   list-style-type: none;
-  font-size: 1.2rem;
+
   text-align: center;
   margin: 0;
   padding: 0;
@@ -24,10 +35,10 @@ const FieldMenu = styled.li`
   display: inline-block;
   width: 150px;
   height: 100%;
-  line-height: 60px;
+  line-height: 55px;
   //transition: all ease 0.3s 0s;
   transition-duration: 0.3s;
-
+  font-size: 1.2rem;
   :hover {
     color: ${palette.navy};
     font-weight: bolder;
@@ -38,6 +49,20 @@ const FieldMenu = styled.li`
     display: block;
     height: 100%;
     width: 100%;
+  }
+
+  /* 브라우저 크기에 따라 가로 사이즈 변경 */
+  @media (max-width: 1024px) {
+    width: 120px;
+  }
+  @media (max-width: 768px) {
+    width: 100px;
+  }
+  @media (max-width: 600px) {
+    width: 120px;
+    height: 50%;
+    font-size: 1rem;
+    line-height: 50px;
   }
 `;
 

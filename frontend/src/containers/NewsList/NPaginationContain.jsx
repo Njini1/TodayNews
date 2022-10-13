@@ -1,11 +1,11 @@
 import React from 'react';
 import NPagination from '../../components/newsList/NPagination';
 import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { /*useParams,*/ useSearchParams } from 'react-router-dom';
 
 const NPaginationContainer = () => {
   const [searchParams] = useSearchParams();
-
+  //const { username } = useParams();
   const field = searchParams.get('field');
   //const username = searchParams.get('username');
 

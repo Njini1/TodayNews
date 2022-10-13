@@ -5,6 +5,7 @@ import SubInfo from '../common/SubInfo';
 import Tags from '../common/Tags';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
+import { useNavigate } from 'react-router-dom';
 import sampleImg from '../images/sample.jpg';
 import {
   AiOutlineLike,
@@ -87,6 +88,7 @@ const CenterBox = styled.div`
 `;
 
 const PostViewer = ({ post, error, loading, actionButtons }) => {
+  const navigate = useNavigate();
   // 에러 발생 시
   if (error) {
     if (error.response && error.response.status === 404) {
@@ -145,7 +147,7 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
           >
             원본보기
           </Button>
-          <Button to="/scrap-news">목록</Button>
+          <Button onClick={() => navigate(-1)}>목록</Button>
           <Button to="#">저장하기</Button>
         </ButtonBox>
       </PostViewerBlock>

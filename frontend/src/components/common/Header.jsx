@@ -23,10 +23,9 @@ const Wrapper = styled(Responsive)`
   align-items: flex-start;
   justify-content: space-between;
   .logo {
-    font-size: 1rem;
-    font-weight: 800;
-    letter-spacing: 2px;
     padding-top: 20px;
+    margin: auto;
+    width: 180px;
   }
 
   .right {
@@ -35,6 +34,13 @@ const Wrapper = styled(Responsive)`
     gap: 20px;
     padding-top: 10px;
     color: white;
+  }
+  @media (max-width: 768px) {
+    height: 5rem;
+    .logo {
+      width: 130px;
+      padding-top: 10px;
+    }
   }
 `;
 const Spacer = styled.div`
@@ -66,7 +72,7 @@ const MenuBox = styled(Responsive)`
     list-style-type: none;
     display: inline-block;
     border-bottom: 2px solid transparent;
-    width: 200px;
+    width: 190px;
     height: 100%;
   }
   .menu a {
@@ -79,6 +85,23 @@ const MenuBox = styled(Responsive)`
   .menu ul li:hover {
     border-bottom: 2px solid ${palette.yellow};
   }
+
+  @media (max-width: 768px) {
+    .menu {
+      font-size: 1.2rem;
+    }
+
+    .menu ul {
+      height: 60px;
+    }
+    .menu ul li {
+      width: 170px;
+      height: 100%;
+    }
+    .menu a {
+      line-height: 60px;
+    }
+  }
 `;
 
 const Header = ({ user, onLogout }) => {
@@ -86,8 +109,8 @@ const Header = ({ user, onLogout }) => {
     <>
       <HeaderBlock>
         <Wrapper>
-          <Link to="/" className="logo">
-            <img src={logoimg} alt="logoimg" width="180px" />
+          <Link to="/">
+            <img src={logoimg} alt="logoimg" className="logo" />
           </Link>
 
           {user ? (
@@ -119,27 +142,20 @@ const Header = ({ user, onLogout }) => {
                   Today News
                 </NavLink>
               </li>
-
-              <li>
-                <NavLink
-                  to="/scrap-news"
-                  style={({ isActive }) => ({
-                    color: isActive ? palette.yellow : 'white',
-                  })}
-                >
-                  Scrap News
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/write"
-                  style={({ isActive }) => ({
-                    color: isActive ? palette.yellow : 'white',
-                  })}
-                >
-                  write
-                </NavLink>
-              </li>
+              {user ? (
+                <li>
+                  <NavLink
+                    to="/scrap-news"
+                    style={({ isActive }) => ({
+                      color: isActive ? palette.yellow : 'white',
+                    })}
+                  >
+                    Scrap News
+                  </NavLink>
+                </li>
+              ) : (
+                <></>
+              )}
             </ul>
           </div>
         </MenuBox>

@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import SubInfo from '../common/SubInfo';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import sampleImg from '../images/sample.jpg';
-import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+
+import LikeDislikeButton from '../common/LikeDislikeButton';
 
 const PostViewerBlock = styled(Responsive)`
   background-color: ${palette.gray[2]};
@@ -50,35 +52,9 @@ const ButtonBox = styled.div`
   justify-content: space-around;
 `;
 
-const LikeButtonBox = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin: 5rem 0;
-`;
-const LikeLabel = styled.label`
-  display: flex;
-  font-size: 1.25rem;
-`;
-const CenterBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  svg {
-    margin: 0 auto;
-  }
-`;
-const LikeBtnStyle = styled.button`
-  font-size: 2.5rem;
-  background: transparent;
-  //color: ${palette.gray[7]};
-  border: none;
-  :hover {
-    color: ${palette.red};
-  }
-  cursor: pointer;
-`;
 //post->news
 const ShortNewsViewer = ({ news, loading, error }) => {
+  const navigate = useNavigate();
   // 에러 발생 시
   if (error) {
     if (error.response && error.response.status === 404) {
@@ -100,7 +76,7 @@ const ShortNewsViewer = ({ news, loading, error }) => {
     return null;
   }
 
-  const { title, body, agency, regDate, like, link } = news;
+  const { title, body, agency, regDate, like, link, _id } = news;
 
   return (
     <>
@@ -122,28 +98,11 @@ const ShortNewsViewer = ({ news, loading, error }) => {
 
         <PostContent dangerouslySetInnerHTML={{ __html: body }} />
 
-        <LikeButtonBox>
-          <CenterBox>
-            <LikeBtnStyle>
-              <AiOutlineLike />
-            </LikeBtnStyle>
-            <LikeLabel>좋아요 {like}</LikeLabel>
-          </CenterBox>
-          <CenterBox>
-            <LikeBtnStyle>
-              <AiOutlineDislike />
-            </LikeBtnStyle>
-            <LikeLabel>싫어요 {0}</LikeLabel>
-          </CenterBox>
-        </LikeButtonBox>
+        <LikeDislikeButton like={like} newsId={_id} />
 
         <ButtonBox>
-          <Button
-            onClick={() => window.open('https://www.naver.com', '_blank')}
-          >
-            원본보기
-          </Button>
-          <Button to="/">목록</Button>
+          <Button onClick={() => window.open(link, '_blank')}>원본보기</Button>
+          <Button onClick={() => navigate(-1)}>목록</Button>
           <Button to="#">저장하기</Button>
         </ButtonBox>
       </PostViewerBlock>

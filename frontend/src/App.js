@@ -19,13 +19,17 @@ const App = () => {
 
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+
       <Route path="/write" element={<WritePage />} />
       <Route path="/my/:username" element={<MyPage />} />
 
-      <Route path="/scrap-news" element={<PostListPage />} />
-      <Route path="/:userId/:postId" element={<PostPage />} />
+      {/*<Route path="/scrap-news" element={<PostListPage />} />
+      <Route path="/scrap-news/:userId/:postId" element={<PostPage />} />*/}
 
-      <Route path="/s-news" element={<PostListPage />} />
+      <Route path="/scrap-news">
+        <Route index element={<PostListPage />} />
+        <Route path=":userId/:postId" element={<PostPage />} />
+      </Route>
     </Routes>
   );
 };

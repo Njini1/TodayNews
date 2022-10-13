@@ -15,8 +15,8 @@ const PageNumber = styled.div``;
 const buildLink = ({ username, tag, page }) => {
   const query = qs.stringify({ tag, page });
   return username
-    ? `/scarp-news/${username}?${query}`
-    : `/scarp-news/?${query}`;
+    ? `/scrap-news/${username}?${query}`
+    : `/scrap-news/?${query}`;
 };
 
 const Pagination = ({ page, lastPage, username, tag }) => {

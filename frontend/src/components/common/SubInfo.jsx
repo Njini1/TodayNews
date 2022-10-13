@@ -28,7 +28,7 @@ const SubInfo = ({ username, publishedDate, hasMarginTop }) => {
       <span>
         <b>
           {username}
-          {/*<Link to={`/${username}`}>{username}</Link>*/}
+          {/*<Link to={`/?username=${username}`}>{username}</Link>*/}
         </b>
       </span>
       <span>{new Date(publishedDate).toLocaleDateString()}</span>

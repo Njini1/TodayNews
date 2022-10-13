@@ -19,12 +19,11 @@ const Tags = ({ tags }) => {
   return (
     <TagsBlock>
       {tags.map((tag) => (
-        <Link className="tag" to={`/m-news/?tag=${tag}`} key={tag}>
+        <Link className="tag" to={`/scrap-news/?tag=${tag}`} key={tag}>
           #{tag}
         </Link>
       ))}
     </TagsBlock>
   );
 };
-
 export default Tags;

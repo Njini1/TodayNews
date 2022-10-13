@@ -5,7 +5,7 @@ import NewsList from '../../components/newsList/NewsList';
 import { listNews } from '../../modules/newsList';
 import { useSearchParams } from 'react-router-dom';
 
-const PostListContainer = () => {
+const NewsListContainer = () => {
   const [searchParams] = useSearchParams();
 
   const dispatch = useDispatch();
@@ -26,4 +26,4 @@ const PostListContainer = () => {
   return <NewsList loading={loading} error={error} newsList={newsList} />;
 };
 
-export default PostListContainer;
+export default NewsListContainer;

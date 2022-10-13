@@ -79,7 +79,7 @@ const PostItem = ({ post }) => {
   //const { publishedDate, user, tags, title, body, _id } = post;
   const { publishedDate, user, title, _id } = post;
   return (
-    <Link to={`/${user.username}/${_id}`}>
+    <Link to={`/scrap-news/${user.username}/${_id}`}>
       <PostItemBlock>
         <img src={sampleimg} width="100%" height="200px" alt="임시파일" />
 
