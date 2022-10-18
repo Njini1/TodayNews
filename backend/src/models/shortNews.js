@@ -9,7 +9,6 @@ const ShortNewsSchema = new Schema({ //이미지 저장 필드명? 필요
   agency: String,
   body: String, //요약 기사로 저장
   regDate: Date, //나중에 마이페이지로 저장할때 언제 뉴스인지 알기위해서 
-  like: Number, //디폴트값 0 수정
   // like_ids: {
   //   type: Schema.Types.ObjectId,
   //   ref: 'User',

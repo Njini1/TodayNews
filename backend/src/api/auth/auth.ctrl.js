@@ -84,6 +84,34 @@ export const login = async ctx => {
     ctx.throw(500, e);
   }
 };
+
+// export const updatePassword = async (ctx) => {
+//   const schema =  Joi.object().keys({
+//     username: Joi.string().alphanum().min(3).max(20).required(),
+//     password: Joi.string().required(),
+//   });
+//   const result = schema.validate(ctx.request.body);
+//   if(result.error) {
+//     ctx.status = 400;
+//     ctx.body = result.error;
+//     return;
+//   }
+
+//   const { username, password } = ctx.request.body;
+//   try {
+//     await User.findByIdAndUpdate(username, password).exec();
+//   } catch (e) {
+//     ctx.throw(500, e);
+//   }
+//   // ctx.body = user.serialize();
+
+//   //   const token = user.generateToken();
+//   //   ctx.cookies.set('access_token', token, {
+//   //     maxAge: 1000*60*60*24*7, //7일
+//   //     httpOnly: true,
+//   //   });
+// };
+
 //로그인 상태 확인 GET /api/auth/check
 export const check = async (ctx) => {
   const { user } = ctx.state;

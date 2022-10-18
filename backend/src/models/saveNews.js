@@ -8,7 +8,7 @@ const SaveNewsSchema = new Schema({
     ref: "User"
   },
   field: String,
-  shortNewsId: {
+  newsId: {
     type: mongoose.Types.ObjectId,
     ref: "ShortNews"
   }

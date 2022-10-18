@@ -67,23 +67,26 @@ export const list = async ctx => {
     ctx.status = 400;
     return;
   }
-  console.log("ctx.state:", ctx.state);
+  console.log("<shortNews.ctrl.list> ctx.state:", ctx.state);
   var shortNews = [];
+  var shortNewsCount = 0;
   try {
     // http://localhost:4000/api/shortNews 
     // 쿼리에 필드명이 없을때 메인페이지인 좋아요 많은 순으로 뉴스 정렬
     if(!shortNewsField) {
-      console.log("필드가 null이고 좋아요 순으로 표시");
-      shortNews = await ShortNews.find().sort({like: -1}).limit(10).skip((page-1)*10).exec();
-    }
-    else {
-      shortNews = await ShortNews.find({field: shortNewsField}).sort({_id: -1}).limit(10).skip((page-1)*10).exec();
+      console.log("<shortNews.list> 요약 뉴스 좋아요 순(전체)");
+      shortNews = await ShortNews.find().sort({like: -1}).limit(12).skip((page-1)*12).exec();
+      shortNewsCount = await ShortNews.countDocuments().exec();
+    } else {
+      shortNews = await ShortNews.find({field: shortNewsField}).sort({_id: -1}).limit(12).skip((page-1)*12).exec();
+      shortNewsCount = await ShortNews.countDocuments({field: shortNewsField}).exec();
     }
     
     // 최근에 입력한 순서대록 목록 -> sort({_id: -1})
     // http://localhost:4000/api/shortNews/?field=정치
-    const shortNewsCount = await ShortNews.countDocuments({field: shortNewsField}).exec();
-    ctx.set('Last-Page', Math.ceil(shortNewsCount / 10));
+    // const shortNewsCount = await ShortNews.countDocuments({field: shortNewsField}).exec();
+    console.log("shorNewsCount:", shortNewsCount);
+    ctx.set('Last-Page', Math.ceil(shortNewsCount / 12));
     ctx.body = shortNews.map((post) => post.toJSON()).map(post=>({
       ...post,
       body: post.body.length < 200 ? post.body : `${post.body.slice(0,200)}...`,
@@ -96,9 +99,10 @@ export const list = async ctx => {
 
 // 좋아요 누를 때
 export const setLike = async ctx => {
-  const { user, news } = ctx.state;
+  const { user } = ctx.state;
+  const { newsId } = ctx.params;
   let tmp = `likeIds.${user._id}`;
-  let obj1 = { _id : news._id }; //게시물 아이디
+  let obj1 = { _id : newsId }; //게시물 아이디
   let obj2 = {};
   // obj1[tmp] = {$ne : true};  //like_users.user5 가 true가 아닐 경우(값이 false이거나 값이 없거나)
   // console.log("obj1 : ", obj1);
@@ -130,9 +134,10 @@ export const setLike = async ctx => {
 
 export const cancleLike = async ctx => {
   console.log("cancleLike 함수에 들어옴");
-  const { user, news } = ctx.state;
+  const { user } = ctx.state;
+  const { newsId } = ctx.params;
   let tmp = `likeIds.${user._id}`;
-  let obj1 = { _id : news._id }; //게시물 아이디
+  let obj1 = { _id : newsId }; //게시물 아이디
   let obj2 = {};
   obj1[tmp] = {$ne : false};  //like_users.user5 가 false(0이나 값이 없음)가 아닐 경우(값이 true)
   console.log("obj1 : ", obj1);

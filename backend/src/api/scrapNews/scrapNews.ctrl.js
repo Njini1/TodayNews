@@ -112,8 +112,8 @@ export const list = async (ctx) => {
     // const posts = await ScrapNews.find().sort({_id: -1}).limit(10).skip((page-1)*10).exec(); // exec()를 붙여 주어야 서버에 쿼리 요청
     const posts = await ScrapNews.find({ 'user._id': user._id })
       .sort({ _id: -1 })
-      .limit(10)
-      .skip((page - 1) * 10)
+      .limit(12)
+      .skip((page - 1) * 12)
       .exec(); // exec()를 붙여 주어야 서버에 쿼리 요청
     // user가 작성한 스크랩 뉴스가 없는 거 예외처리
     // if(!posts) {
@@ -122,7 +122,7 @@ export const list = async (ctx) => {
 
     console.log('posts test:', posts);
     const postCount = await ScrapNews.countDocuments().exec();
-    ctx.set('Last-Page', Math.ceil(postCount / 10));
+    ctx.set('Last-Page', Math.ceil(postCount / 12));
     ctx.body = posts
       .map((post) => post.toJSON())
       .map((post) => ({
