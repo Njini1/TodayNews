@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import Joi from '../../../node_modules/joi/lib/index';
 import ScrapNews from '../../models/scrapNews';
 import sanitizeHtml from 'sanitize-html';
+import ShortNews from '../../models/shortNews';
 
 const { ObjectId } = mongoose.Types;
 
@@ -72,11 +73,11 @@ export const write = async (ctx) => {
     ctx.body = result.error;
     return;
   }
-  const field = ctx.query.field;
+  // const field = ctx.query.field;
   const { title, body, tags, agency } = ctx.request.body;
   console.log('scrapbody의 값:', body);
   const post = new ScrapNews({
-    field,
+    // field,
     agency,
     title,
     body: sanitizeHtml(body, sanitizeOption),
@@ -121,7 +122,7 @@ export const list = async (ctx) => {
     // }
 
     console.log('posts test:', posts);
-    const postCount = await ScrapNews.countDocuments().exec();
+    const postCount = await ScrapNews.countDocuments({ 'user._id': user._id }).exec();
     ctx.set('Last-Page', Math.ceil(postCount / 12));
     ctx.body = posts
       .map((post) => post.toJSON())
@@ -198,3 +199,18 @@ export const checkOwnPost = (ctx, next) => {
   }
   return next();
 };
+
+export const getNewsBody = async (ctx) => {
+  const {id} = ctx.params
+  try {
+    const newsBody = await ShortNews.findById(id);
+    console.log("getNewsBody의 newsBody.original: ", newsBody.original);
+    if(!newsBody) {
+      ctx.status = 404;
+      return;
+    }
+    ctx.body = newsBody.original;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+}

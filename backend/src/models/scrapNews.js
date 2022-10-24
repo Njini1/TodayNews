@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const ScrapNewsSchema = new Schema({
   // _id: mongoose.Types.ObjectId,
-  field: String, //추가된 필드 //url에 ?field=  //이건 저장한 뉴스에서 스크랩 버튼을 클릭하면 저장한 뉴스의 field값 그대로 가져오면 될듯? (마이페이지에 분야별 폴더)
+  // field: String, //추가된 필드 //url에 ?field=  //이건 저장한 뉴스에서 스크랩 버튼을 클릭하면 저장한 뉴스의 field값 그대로 가져오면 될듯? (마이페이지에 분야별 폴더)
   agency: String, //추가된 필드22 // 파라미터로 넘김.. 너쪽에서 고민필요
   title: String,
   body: String,

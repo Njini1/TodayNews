@@ -5,7 +5,7 @@ const { ObjectId } = mongoose.Types;
 
 //뉴스 하나 가져오기
 export const getNewsById = async (ctx, next) => {
-  const {user} = ctx.state;
+  // const {user} = ctx.state;
   const {id} = ctx.params;
   console.log("getNewsById의 id:", id);
   if (!ObjectId.isValid(id)) {
@@ -20,7 +20,7 @@ export const getNewsById = async (ctx, next) => {
       return;
     }
     // console.log("user:", user);
-    news.likeIds = news.likeIds[user._id]; //존재하지 않으면 undefined 또는 0 => false로 알려주면 될듯
+    // news.likeIds = news.likeIds[user._id]; //존재하지 않으면 undefined 또는 0 => false로 알려주면 될듯
     ctx.state.news = news;
     return next();
   } catch (e) {
