@@ -59,14 +59,14 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const SettingModal = ({ visible, title, onConfirm, onCancel }) => {
+const SettingModal = ({ visible, modaltitle, onConfirm, onCancel }) => {
   if (!visible) return null;
   return (
     <Fullscreen>
       <AskModalBlock>
-        <h2>{title}</h2>
+        <h2>{modaltitle}</h2>
 
-        <form className="flexBox" autocomplete="off">
+        <form className="flexBox" autoComplete="off">
           <p>현재 비밀번호</p>
           <input type="password" />
           <p>새로운 비밀번호</p>

@@ -19,3 +19,7 @@ export const updatePost = ({ id, title, body, tags }) =>
   });
 
 export const removePost = (id) => client.delete(`/api/posts/${id}`);
+
+//스크랩//id=요약뉴스 아이디
+export const scrapNews = (id) =>
+  client.get(`/api/posts/originalNewsBody/${id}`);

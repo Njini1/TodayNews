@@ -89,7 +89,7 @@ export const updatePassword = async (ctx) => {
   const user = ctx.state.user;
   console.log('user:', user);
   const schema =  Joi.object().keys({
-    username: Joi.string().alphanum().min(3).max(20).required(),
+    // username: Joi.string().alphanum().min(3).max(20).required(),
     password: Joi.string().required(),
   });
   const result = schema.validate(ctx.request.body);
@@ -99,9 +99,9 @@ export const updatePassword = async (ctx) => {
     return;
   }
 
-  const { username, password } = ctx.request.body;
+  const { password } = ctx.request.body;
   try {
-    const updateUser = await User.findByUsername(username);
+    const updateUser = await User.findById(user._id)
     // await User.changeUserPassword(username, password).exec();
     // await User.findByIdAndUpdate(user._id, hashedPassword).exec();
     await updateUser.setPassword(password);

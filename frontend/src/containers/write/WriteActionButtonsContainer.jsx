@@ -41,8 +41,7 @@ const WriteActionButtonsContainer = () => {
   // 성공 혹은 실패시 할 작업
   useEffect(() => {
     if (post) {
-      const { _id, user } = post;
-      navigate(`/${user.username}/${_id}`);
+      navigate(`/scrap-news`);
     }
     if (postError) {
       console.log(postError);

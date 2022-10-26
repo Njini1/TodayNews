@@ -14,32 +14,32 @@ const TagBoxBlock = styled.div`
 `;
 
 const TagForm = styled.form`
-  border-radius:4px;
-    overflow:hidden;
-    display:flex;
-    width:256px;
-    border: 2px solid gray;    
-    input, button{
-        outline:none;
-        border: none;
-        font-size:1rem;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  width: 256px;
+  border: 2px solid gray;
+  input,
+  button {
+    outline: none;
+    border: none;
+    font-size: 1rem;
+  }
+  input {
+    padding: 0.5rem;
+    flex: 1;
+  }
 
+  button {
+    cursor: pointer;
+    border: none;
+    background: grey;
+    color: white;
+    font-weight: bold;
+    &:hover {
+      background: navy;
     }
-    input{
-        padding: 0.5rem;
-        flex:1;
-    }
-
-    button{
-        cursor:pointer;
-        border:none;
-        background: grey;
-        color:white;
-        font-weight:bold;
-        &:hover{
-            background: navy;
-        }
-    }
+  }
 `;
 
 const Tag = styled.div`
@@ -47,7 +47,7 @@ const Tag = styled.div`
   color: grey;
   cursor: pointer;
   &:hover {
-    color:navy;
+    color: navy;
   }
 `;
 
@@ -57,14 +57,14 @@ const TagListBlock = styled.div`
 `;
 
 // React.memo를 사용하여 tag 값이 바뀔 때만 리렌더링되도록 처리
-const TagItem = React.memo(({ tag, onRemove, onChangeTags }) => (
+const TagItem = React.memo(({ tag, onRemove }) => (
   <Tag onClick={() => onRemove(tag)}>#{tag}</Tag>
 ));
 
 // React.memo를 사용하여 tags 값이 바뀔 때만 리렌더링되도록 처리
 const TagList = React.memo(({ tags, onRemove }) => (
   <TagListBlock>
-    {tags.map(tag => (
+    {tags.map((tag) => (
       <TagItem key={tag} tag={tag} onRemove={onRemove} />
     ))}
   </TagListBlock>
@@ -75,7 +75,7 @@ const TagBox = ({ tags, onChangeTags }) => {
   const [localTags, setLocalTags] = useState([]);
 
   const insertTag = useCallback(
-    tag => {
+    (tag) => {
       if (!tag) return; // 공백이라면 추가하지 않음
       if (localTags.includes(tag)) return; // 이미 존재한다면 추가하지 않음
       const nextTags = [...localTags, tag];
@@ -86,20 +86,20 @@ const TagBox = ({ tags, onChangeTags }) => {
   );
 
   const onRemove = useCallback(
-    tag => {
-      const nextTags = localTags.filter(t => t !== tag);
+    (tag) => {
+      const nextTags = localTags.filter((t) => t !== tag);
       setLocalTags(nextTags);
       onChangeTags(nextTags);
     },
     [localTags, onChangeTags],
   );
 
-  const onChange = useCallback(e => {
+  const onChange = useCallback((e) => {
     setInput(e.target.value);
   }, []);
 
   const onSubmit = useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
       insertTag(input.trim()); // 앞뒤 공백 없앤 후 등록
       setInput(''); // input 초기화

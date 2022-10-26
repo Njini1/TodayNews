@@ -1,17 +1,17 @@
 import client from './client';
-/*
-export const readNews = (id) => client.get(`/api/shortNews/${id}`);
 
-export const listNews = ({ field, username, page }) => {
-  return client.get(`/api/shortNews`, {
-    params: { page, username, field },
-  });
-};
-*/
-//일단 막적어봐,,,ㅋ
-export const readLikes = (likes) => client.get(`/api/shortNews/${likes}`);
-export const listLikes = ({ username, likes }) => {
-  return client.get(`/api/shortNews`, {
-    params: { username, likes },
-  });
-};
+export const setLike = (id) => client.post(`/api/shortNews/like/${id}`);
+/*
+  export const setLike = ({ newsId, username }) => {
+  return client.get(`/api/shortNews/like/${newsId}`, {
+    params: { username },
+    });
+  };
+ */
+
+export const cancleLike = (id) =>
+  client.post(`/api/shortNews/cancleLike/${id}`);
+
+//임시
+//export const checkLike = (id) => client.post(`/api/shortNews/checkLike/${id}`);
+//export const likeUser = (id) => client.post(`/api/shortNews/likeUser/${id}`);

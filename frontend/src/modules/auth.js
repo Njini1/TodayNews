@@ -11,9 +11,11 @@ const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] =
   createRequestActionTypes('auth/REGISTER');
-
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
   createRequestActionTypes('auth/LOGIN');
+
+const [UPDATE, UPDATE_SUCCESS, UPDATE_FAILURE] =
+  createRequestActionTypes('auth/UPDATE');
 
 export const changeField = createAction(
   CHANGE_FIELD,
@@ -33,12 +35,18 @@ export const login = createAction(LOGIN, ({ username, password }) => ({
   password,
 }));
 
+export const update = createAction(UPDATE, ({ password }) => ({
+  password,
+}));
+
 // saga 생성
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
+const updateSaga = createRequestSaga(UPDATE, authAPI.update);
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(LOGIN, loginSaga);
+  yield takeLatest(UPDATE, updateSaga);
 }
 
 const initialState = {
@@ -50,6 +58,10 @@ const initialState = {
   login: {
     username: '',
     password: '',
+  },
+  update: {
+    password: '',
+    passwordConfirm: '',
   },
   auth: null,
   authError: null,
@@ -66,6 +78,7 @@ const auth = handleActions(
       [form]: initialState[form],
       authError: null, // 폼 전환 시 회원 인증 에러 초기화
     }),
+
     // 회원가입 성공
     [REGISTER_SUCCESS]: (state, { payload: auth }) => ({
       ...state,
@@ -77,6 +90,7 @@ const auth = handleActions(
       ...state,
       authError: error,
     }),
+
     // 로그인 성공
     [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
       ...state,
@@ -85,6 +99,18 @@ const auth = handleActions(
     }),
     // 로그인 실패
     [LOGIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
+    }),
+
+    // 비밀번호 수정 성공
+    [UPDATE_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      authError: null,
+      auth,
+    }),
+    // 비밀번호 수정 실패
+    [UPDATE_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
     }),

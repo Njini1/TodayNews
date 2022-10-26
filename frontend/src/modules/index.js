@@ -8,6 +8,10 @@ import post, { postSaga } from './post';
 import posts, { postsSaga } from './posts';
 import news, { newsSaga } from './news';
 import newsList, { shortNewsSaga } from './newsList';
+import saveNewsList, { saveNewsSaga } from './saveNewsList';
+
+import likes, { likeSaga } from './likes';
+import saveNews, { saveSaga } from './saveNews';
 const rootReducer = combineReducers({
   auth,
   loading,
@@ -17,6 +21,9 @@ const rootReducer = combineReducers({
   posts,
   news,
   newsList,
+  likes,
+  saveNews,
+  saveNewsList,
 });
 
 export function* rootSaga() {
@@ -28,6 +35,9 @@ export function* rootSaga() {
     postsSaga(),
     newsSaga(),
     shortNewsSaga(),
+    likeSaga(),
+    saveSaga(),
+    saveNewsSaga(),
   ]);
 }
 

@@ -16,6 +16,7 @@ const ActionButton = styled.button`
   font-weight: bold;
   border: none;
   outline: none;
+  font-weight: bold;
   font-size: 1.2rem;
   cursor: pointer;
   &:hover {
@@ -23,7 +24,7 @@ const ActionButton = styled.button`
     color: black;
   }
   & + & {
-    margin-left: 0.25rem;
+    margin-left: 0.7rem;
   }
 `;
 
@@ -46,6 +47,7 @@ const PostActionButtons = ({ onEdit, onRemove }) => {
         <ActionButton onClick={onEdit}>수정</ActionButton>
         <ActionButton onClick={onRemoveClick}>삭제</ActionButton>
       </PostActionButtonsBlock>
+
       <AskRemoveModal
         visible={modal}
         onConfirm={onConfirm}

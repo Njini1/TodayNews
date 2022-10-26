@@ -9,6 +9,14 @@ export const saveNews = async ctx => {
   const userId = ctx.state.user._id;
   const newsId = ctx.params.id;
   // const field = ctx.query.field;
+  console.log("userId: ", userId, "newsId: ", newsId);
+  const exists = await SaveNews.findOne({userId: userId, newsId: newsId});
+  console.log("exists: ", exists);
+  if(exists) {
+    console.log("이미 저장한 뉴스입니다.");
+    ctx.status = 400;
+    return;
+  }
   
   const news = new SaveNews({
     userId,
@@ -21,6 +29,28 @@ export const saveNews = async ctx => {
     ctx.throw(500, e);
   }
 };
+
+export const cancleSave = async (ctx) => {
+  // const userId = ctx.state.user._id;
+  const saveNewsId = ctx.params.id;
+  console.log("saveNewsId:", saveNewsId);
+  try {
+    await SaveNews.findByIdAndDelete(saveNewsId);
+    ctx.status = 204;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+// export const cancleSave = async (ctx) => {
+//   const userId = ctx.state.user._id;
+//   const newsId = ctx.params.id;
+//   try {
+//     await SaveNews.findOneAndDelete({userId: userId, newsId: newsId});
+//     ctx.status = 204;
+//   } catch (e) {
+//     ctx.throw(500, e);
+//   }
+// };
 
 // export const getSaveNews = async ( ctx ) => {
 //   const user = ctx.state.user;

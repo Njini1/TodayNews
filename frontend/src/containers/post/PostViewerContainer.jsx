@@ -37,7 +37,7 @@ const PostViewerContainer = () => {
   const onRemove = async () => {
     try {
       await removePost(postId);
-      navigate('/'); // 홈으로 이동
+      navigate(-1);
     } catch (e) {
       console.log(e);
     }

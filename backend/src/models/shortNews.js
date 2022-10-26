@@ -20,6 +20,8 @@ const ShortNewsSchema = new Schema({ //이미지 저장 필드명? 필요
   // }, //좋아요 누른 사람 아이디
   likeCount: 0,
   likeIds: {},
+  dislikeCount: 0,
+  dislikeIds: {}
 });
 
 // isUsed: {

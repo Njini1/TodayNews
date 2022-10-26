@@ -13,6 +13,7 @@ import {
   AiOutlineDislike,
   AiFillDislike,
 } from 'react-icons/ai';
+import { AiOutlineShareAlt } from 'react-icons/ai';
 
 const PostViewerBlock = styled(Responsive)`
   // background-color: ${palette.gray[2]};
@@ -87,6 +88,22 @@ const CenterBox = styled.div`
   }
 `;
 
+//--
+const ShareButtonStyle = styled.button`
+  font-weight: bold;
+  font-size: 1.5rem;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  color: grey;
+  margin-left: 0.7rem;
+  cursor: pointer;
+  &:hover {
+    background: darkgrey;
+    color: black;
+  }
+`;
+
 const PostViewer = ({ post, error, loading, actionButtons }) => {
   const navigate = useNavigate();
   // 에러 발생 시
@@ -103,11 +120,23 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
   }
 
   const { title, body, user, publishedDate, tags } = post;
-  const clickLike = false;
-  const clickDislike = false;
+  const share = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: body,
+        url: window.location.href,
+      });
+    } else {
+      alert('공유하기가 지원되지 않는 환경 입니다.');
+    }
+  };
   return (
     <>
       <PostViewerBlock>
+        {/*<ShareButtonStyle onClick={share}>
+          <AiOutlineShareAlt />
+  </ShareButtonStyle>*/}
         {actionButtons}
         <PostHead>
           <h1>{title}</h1>
@@ -126,7 +155,7 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
         <PostContent dangerouslySetInnerHTML={{ __html: body }} />
 
         <LikeButtonBox>
-          <CenterBox>
+          {/* <CenterBox>
             <LikeBtnStyle>
               <AiOutlineLike />
             </LikeBtnStyle>
@@ -138,7 +167,7 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
             </LikeBtnStyle>
 
             <LikeLabel>싫어요 0</LikeLabel>
-          </CenterBox>
+          </CenterBox>*/}
         </LikeButtonBox>
 
         <ButtonBox>
@@ -148,7 +177,7 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
             원본보기
           </Button>
           <Button onClick={() => navigate(-1)}>목록</Button>
-          <Button to="#">저장하기</Button>
+          <Button onClick={share}>공유하기</Button>
         </ButtonBox>
       </PostViewerBlock>
     </>

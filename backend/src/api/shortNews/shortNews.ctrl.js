@@ -20,7 +20,16 @@ export const getNewsById = async (ctx, next) => {
       return;
     }
     // console.log("user:", user);
-    // news.likeIds = news.likeIds[user._id]; //존재하지 않으면 undefined 또는 0 => false로 알려주면 될듯
+    // if(news.likeIds[user._id]) {
+    //   news.likeIds = news.likeIds[user._id];
+    // } else {
+    //   news.likeIds = 0; //존재하지 않으면 undefined 또는 0 => false로 알려주면 될듯
+    // }
+    // if(news.dislikeIds[user._id]) {
+    //   news.dislikeIds = news.dislikeIds[user._id];
+    // } else {
+    //   news.dislikeIds = 0; //존재하지 않으면 undefined 또는 0 => false로 알려주면 될듯
+    // }
     ctx.state.news = news;
     return next();
   } catch (e) {
@@ -100,9 +109,9 @@ export const list = async ctx => {
 // 좋아요 누를 때
 export const setLike = async ctx => {
   const { user } = ctx.state;
-  const { newsId } = ctx.params;
+  const { id } = ctx.params;
   let tmp = `likeIds.${user._id}`;
-  let obj1 = { _id : newsId }; //게시물 아이디
+  let obj1 = { _id : id }; //게시물 아이디
   let obj2 = {};
   // obj1[tmp] = {$ne : true};  //like_users.user5 가 true가 아닐 경우(값이 false이거나 값이 없거나)
   // console.log("obj1 : ", obj1);
@@ -128,16 +137,38 @@ export const setLike = async ctx => {
   }
 };
 
-// export const setDislike = async ctx => {
+export const setDislike = async ctx => {
+  const { user } = ctx.state;
+  const { id } = ctx.params;
+  let tmp = `dislikeIds.${user._id}`;
+  let obj1 = { _id : id }; //게시물 아이디
+  let obj2 = {};
+  obj2[tmp] = 1;
 
-// };
+  try {
+    // news에 likeIds에 있는 값을 판단 getLike해서 값이 없으면 파라미터로 온 값저장하고 있으면 삭제
+    ShortNews.findOneAndUpdate(obj1, { 
+    // ShortNews.updateOne(obj1, {   
+      $inc: { dislikeCount: 1} ,
+      $set: obj2
+    }, { returnOriginal: false, returnDocument: 'after'}, function(err, replaced) {  
+      console.log("오류와 대체값");
+      console.log(err, replaced);
+      console.log("dislikeCount:", replaced.dislikeCount);
+      ctx.state.news.dislikeCount = replaced.dislikeCount;
+    }
+    );
+  } catch (e) {
+    ctx.throw(500, 0);
+  }
+};
 
 export const cancleLike = async ctx => {
   console.log("cancleLike 함수에 들어옴");
   const { user } = ctx.state;
-  const { newsId } = ctx.params;
+  const { id } = ctx.params;
   let tmp = `likeIds.${user._id}`;
-  let obj1 = { _id : newsId }; //게시물 아이디
+  let obj1 = { _id : id }; //게시물 아이디
   let obj2 = {};
   obj1[tmp] = {$ne : false};  //like_users.user5 가 false(0이나 값이 없음)가 아닐 경우(값이 true)
   console.log("obj1 : ", obj1);
@@ -165,4 +196,29 @@ export const cancleLike = async ctx => {
   }
 };
 
-//페이크뉴스 공개된 것만 불러오기
+export const cancleDislike = async ctx => {
+  console.log("cancledisLike 함수에 들어옴");
+  const { user } = ctx.state;
+  const { id } = ctx.params;
+  let tmp = `dislikeIds.${user._id}`;
+  let obj1 = { _id : id }; //게시물 아이디
+  let obj2 = {};
+  obj1[tmp] = {$ne : false};  //like_users.user5 가 false(0이나 값이 없음)가 아닐 경우(값이 true)
+  console.log("obj1 : ", obj1);
+  obj2[tmp] = 0;
+
+  try {
+    ShortNews.findOneAndUpdate(obj1, { 
+      $inc: { dislikeCount: -1} ,
+      $set: obj2
+    }, { returnOriginal: false, returnDocument: 'after'}, function(err, replaced) {  
+      console.log("오류와 대체값");
+      console.log(err, replaced);
+      console.log("새 likeCount:", replaced.dislikeCount);
+      ctx.state.news.dislikeCount = replaced.dislikeCount;
+    }
+    );
+  } catch (e) {
+    ctx.throw(500, 0);
+  }  
+}

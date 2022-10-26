@@ -112,7 +112,7 @@ const PostList = ({ posts, loading, error, showWriteButton }) => {
           </Button>
         )}
       </WritePostButtonWrapper>
-
+      {!posts ? <p>스크랩한 뉴스가 존재하지 않습니다</p> : ''}
       <GridBox>
         {!loading && posts && (
           <>

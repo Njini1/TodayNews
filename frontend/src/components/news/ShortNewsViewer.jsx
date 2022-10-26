@@ -6,9 +6,10 @@ import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import sampleImg from '../images/sample.jpg';
 import { useNavigate } from 'react-router-dom';
+import { useSpeechSynthesis } from '../../../node_modules/react-speech-kit/dist/index';
 
 import LikeDislikeButton from '../common/LikeDislikeButton';
-
+import { HiPlay, HiPause } from 'react-icons/hi';
 const PostViewerBlock = styled(Responsive)`
   background-color: ${palette.gray[2]};
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
@@ -21,6 +22,31 @@ const PostImg = styled.div`
   margin: 50px 0;
   display: flex;
   justify-content: center;
+  position: relative;
+  .speechBtn {
+    cursor: pointer;
+    background-color: transparent;
+    display: inherit;
+    position: absolute;
+    width: 70%;
+    height: 100%;
+    font-size: 4.5rem;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.3s;
+    border: none;
+    :hover {
+      opacity: 1;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
+  .imgStyle {
+    vertical-align: middle;
+    transition: 0.3s;
+    width: 70%;
+  }
 `;
 const PostHead = styled.div`
   margin-bottom: 3rem;
@@ -52,8 +78,17 @@ const ButtonBox = styled.div`
   justify-content: space-around;
 `;
 
-//post->news
-const ShortNewsViewer = ({ news, loading, error }) => {
+const ShortNewsViewer = ({ news, loading, error, scrapButton, saveButton }) => {
+  //tts
+  const onEnd = () => {};
+  const { speak, cancel, speaking } = useSpeechSynthesis({
+    onEnd,
+  });
+  const handleOnClick = () => {
+    speak({ text: news.body });
+  };
+
+  //--
   const navigate = useNavigate();
   // 에러 발생 시
   if (error) {
@@ -76,34 +111,61 @@ const ShortNewsViewer = ({ news, loading, error }) => {
     return null;
   }
 
-  const { title, body, agency, regDate, like, link, _id } = news;
+  const {
+    title,
+    body,
+    agency,
+    regDate,
+    like,
+    url,
+    link,
+    _id,
+    authors,
+    likeCount,
+    likeIds,
+  } = news;
 
   return (
     <>
       <PostViewerBlock>
-        {/*{actionButtons}*/}
+        {scrapButton}
         <PostHead>
           <h1>{title}</h1>
           <SubInfo
-            username={agency} //신문사 이름
+            username={agency + ' - ' + authors + ' 기자'} //신문사 이름
             publishedDate={regDate} //기사 날짜 (오늘날짜가 될것같긴한데.. 좀 다르니까.. 바꾸기)
             hasMarginTop
           />
         </PostHead>
 
         <PostImg>
-          <img src={sampleImg} alt="임시 이미지" width="70%" />{' '}
+          <img className="imgStyle" src={sampleImg} alt="임시 이미지" />
+          {speaking ? (
+            <button className="speechBtn" type="button" onClick={cancel}>
+              <HiPause />
+            </button>
+          ) : (
+            <button
+              className="speechBtn"
+              type="button"
+              onClick={() => handleOnClick()}
+            >
+              <HiPlay />
+            </button>
+          )}
+
           {/*영상 혹은 이미지를 넣어야하고, 해당 아이템 클릭시 소리 재생(TTS)*/}
         </PostImg>
-
         <PostContent dangerouslySetInnerHTML={{ __html: body }} />
 
-        <LikeDislikeButton like={like} newsId={_id} />
+        <LikeDislikeButton like={likeCount} newsId={_id} />
 
         <ButtonBox>
-          <Button onClick={() => window.open(link, '_blank')}>원본보기</Button>
+          <Button onClick={() => window.open(url || link, '_blank')}>
+            원본보기
+          </Button>
           <Button onClick={() => navigate(-1)}>목록</Button>
-          <Button to="#">저장하기</Button>
+          {saveButton}
         </ButtonBox>
       </PostViewerBlock>
     </>
